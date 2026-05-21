@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim Your Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #fff;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    padding: 60px 32px;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeUp 0.45s ease forwards;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 10px;
+  }
+
+  .pass-input {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #111;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    text-transform: uppercase;
+  }
+  .pass-input:focus { border-color: #111; }
+  .pass-input::placeholder { color: #ccc; font-weight: 400; letter-spacing: 0.04em; text-transform: none; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+
+  /* ── INPUT SCREEN ── */
+  #screen-input {
+    align-items: center;
+    text-align: center;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 7vw, 42px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #111;
+    margin-bottom: 36px;
+    text-align: center;
+  }
+  .page-title em { font-style: italic; color: #555; }
+
+  .cert-field-group {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  /* ── CERTIFICATE CARD ── */
+  #screen-result {
+    align-items: center;
+  }
+
+  .cert-card {
+    width: 100%;
+    border: 1.5px solid #111;
+    border-radius: 6px;
+    padding: 40px 28px 36px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    overflow: hidden;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: #111;
+    border-radius: 6px 6px 0 0;
+  }
+  .cert-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: #111;
+    border-radius: 0 0 6px 6px;
+  }
+
+  .cert-label-top {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .cert-trophy {
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+
+  .cert-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 7vw, 38px);
+    font-weight: 700;
+    color: #111;
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .cert-kelompok {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .cert-divider {
+    width: 40px;
+    height: 1.5px;
+    background: #e0e0e0;
+    margin: 0 auto 24px;
+  }
+
+  .cert-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #444;
+    line-height: 1.85;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .cert-message strong {
+    font-style: normal;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .cert-regards {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ INPUT ══════════ -->
+<div id="screen-input" class="screen active">
+  <p class="eyebrow" style="text-align:center;">Last Possible Path</p>
+  <div class="page-title">Claim Your<br><em>Certificate</em></div>
+
+  <div class="cert-field-group">
+    <p class="field-label">Nama</p>
+    <input class="pass-input" id="cert-nama" type="text" placeholder="WITH CAPSLOCK" autocomplete="off" onkeydown="if(event.key==='Enter') submitCert()" />
+  </div>
+
+  <div class="cert-field-group">
+    <p class="field-label">Kelompok</p>
+    <input class="pass-input" id="cert-kelompok" type="text" placeholder="EX: KELOMPOK SATU" autocomplete="off" onkeydown="if(event.key==='Enter') submitCert()" />
+  </div>
+
+  <button class="btn-primary" style="width:100%;" onclick="submitCert()">Generate Certificate &rarr;</button>
+</div>
+
+<!-- ══════════ CERTIFICATE ══════════ -->
+<div id="screen-result" class="screen">
+  <div class="cert-card">
+    <p class="cert-label-top">Certificate of Completion</p>
+
+    <div class="cert-trophy">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 10 H56 V38 C56 52 44 60 40 60 C36 60 24 52 24 38 Z" fill="#111"/>
+        <path d="M24 16 C16 16 12 22 12 28 C12 34 16 38 24 36" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M56 16 C64 16 68 22 68 28 C68 34 64 38 56 36" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="36" y="60" width="8" height="10" fill="#111"/>
+        <rect x="26" y="70" width="28" height="4" rx="2" fill="#111"/>
+        <path d="M32 18 C32 18 34 28 36 32" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+        <path d="M10 6 L11.2 9.6 L15 9.6 L12 11.8 L13.2 15.4 L10 13.2 L6.8 15.4 L8 11.8 L5 9.6 L8.8 9.6 Z" fill="#111" opacity="0.2"/>
+        <path d="M70 6 L71.2 9.6 L75 9.6 L72 11.8 L73.2 15.4 L70 13.2 L66.8 15.4 L68 11.8 L65 9.6 L68.8 9.6 Z" fill="#111" opacity="0.2"/>
+      </svg>
+    </div>
+
+    <div class="cert-name" id="cert-display-nama">—</div>
+    <div class="cert-kelompok" id="cert-display-kelompok">—</div>
+    <div class="cert-divider"></div>
+    <p class="cert-message" id="cert-display-msg">—</p>
+    <p class="cert-regards">Regards, Guides</p>
+  </div>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function submitCert() {
+  const nama = document.getElementById('cert-nama').value.trim();
+  const kelompok = document.getElementById('cert-kelompok').value.trim();
+  if (!nama || !kelompok) return;
+
+  document.getElementById('cert-display-nama').textContent = nama.toUpperCase();
+  document.getElementById('cert-display-kelompok').textContent = kelompok.toUpperCase();
+  document.getElementById('cert-display-msg').innerHTML =
+    'Congrats to <strong>' + nama + '</strong> from <strong>' + kelompok +
+    '</strong> for completing our path and meeting the best possibility here. I wish our path will cross again in the future.';
+
+  go('screen-result');
+}
+</script>
+</body>
+</html>
